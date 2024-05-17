@@ -17,6 +17,7 @@ const Header = () => {
   const { isAuthenticated, primaryWallet, network, networkConfigurations } =
     useDynamicContext();
   const [currentNetwork, setCurrentNetwork] = useState(network);
+  const [currentNetworkName, setCurrentNetworkName] = useState('');
   const [isClient, setIsClient] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,7 +35,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsClient(true);
-    if (network && networkConfigurations && network !== currentNetwork) {
+    if (network && networkConfigurations && currentNetwork !== network) {
       const networkname = networkConfigurations['evm']?.find(
         (net) => net.chainId === network
       );
@@ -44,8 +45,8 @@ const Header = () => {
         networkNameToSet = 'degen';
       }
 
-      setCurrentNetwork(networkNameToSet);
-      console.log('Current Network Name : ', networkNameToSet);
+      setCurrentNetwork(network);
+      setCurrentNetworkName(networkNameToSet);
       router.push(`/${networkNameToSet}`);
     }
   }, [network, currentNetwork, networkConfigurations]);
@@ -68,7 +69,7 @@ const Header = () => {
             {isClient && isAuthenticated ? (
               <Link
                 className='hidden lg:block'
-                href={`${currentNetwork}/account/${primaryWallet?.address}`}
+                href={`/${currentNetworkName}/account/${primaryWallet?.address}`}
               >
                 my bounties
               </Link>
