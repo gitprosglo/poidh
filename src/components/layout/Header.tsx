@@ -17,7 +17,6 @@ const Header = () => {
   const { isAuthenticated, primaryWallet, network, networkConfigurations } =
     useDynamicContext();
   const [currentNetwork, setCurrentNetwork] = useState(network);
-  const [currentNetworkName, setCurrentNetworkName] = useState('');
   const [isClient, setIsClient] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,8 +44,7 @@ const Header = () => {
         networkNameToSet = 'degen';
       }
 
-      setCurrentNetwork(network);
-      setCurrentNetworkName(networkNameToSet);
+      setCurrentNetwork(networkNameToSet);
       router.push(`/${networkNameToSet}`);
     }
   }, [network, currentNetwork, networkConfigurations]);
@@ -69,7 +67,7 @@ const Header = () => {
             {isClient && isAuthenticated ? (
               <Link
                 className='hidden lg:block'
-                href={`/${currentNetworkName}/account/${primaryWallet?.address}`}
+                href={`/${currentNetwork}/account/${primaryWallet?.address}`}
               >
                 my bounties
               </Link>
